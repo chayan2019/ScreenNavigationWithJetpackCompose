@@ -24,12 +24,34 @@ fun Navigation() {
         composable(route = "home") {
             HomeScreen(navController = navController)
         }
-        composable(route = "secondlist/{content}", arguments = listOf(navArgument("content") {
-            type= NavType.StringType
-        })) {
-            SecondScreen(navController = navController, content = it.arguments?.getString("content"))
+        composable(route = "thirdList") {
+            ThirdScreen(navController = navController)
         }
+        composable(route = "secondlists/{content}", arguments = listOf(navArgument("content") {
+            type = NavType.StringType
+        })) {
+            SecondScreen(
+                navController = navController,
+                content = it.arguments?.getString("content")
+            )
+        }
+    }
 
+}
+
+@Composable
+fun ThirdScreen(navController: NavController) {
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = "third Screen", style = MaterialTheme.typography.h2)
+    }
+    Spacer(modifier = Modifier.height(12.dp))
+    Button(onClick = { navController.navigateUp() }) {
+        Text(text = "Go Back")
     }
 }
 
@@ -52,8 +74,14 @@ fun HomeScreen(navController: NavController) {
             modifier = Modifier.border(2.dp, MaterialTheme.colors.primary)
         )
         Spacer(modifier = Modifier.height(16.dp))
-        OutlinedButton(onClick = { navController.navigate("secondlist/$text") }) {
+
+        OutlinedButton(onClick = {
+            navController.navigate("secondlists/$text") }) {
             Text(text = "Second Scren")
+        }
+
+        Button(onClick = { navController.navigate("thirdList") }) {
+            Text(text = "Third screen")
         }
     }
 }
@@ -74,6 +102,7 @@ fun SecondScreen(navController: NavController, content: String?) {
         }) {
             Text(text = "Go Back")
         }
+
 
     }
 
